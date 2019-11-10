@@ -82,3 +82,17 @@ async def center_to_bottom(np, color=(8, 8, 14)):
         np[center + i] = color
         np.write()
         sleep_ms(100)
+
+@asyn.cancellable
+async def fill_solid_rainbow(np):
+    leds = int(len(np))
+    deltahue = 1 / leds
+    r = range(leds)
+    for l in r:
+        rgb = list(colorsys.hsv_to_rgb(deltahue * l, 1, 1))
+        color = (
+            int(rgb[0] * 255),
+            int(rgb[1] * 255),
+            int(rgb[2] * 255)
+        )
+        set_led(np, l, color)
